@@ -1,27 +1,27 @@
-{% extends "layoutt.html" %}
 
+
+{% extends 'layoutt.html' %}
 {% block content %}
     <h1>{{ subtitle }}</h1>
     <p>{{ text }}</p>
-<head>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='personalized.css') }}">
-      
-</head>
-
-    <form method="POST" action="{{ url_for('personalized_page') }}">
-        <label for="color_input">Enter a color (Hex):</label>
-        <input type="text" id="color_input" name="color_input">
-        <button type="submit">Generate Color Palette</button>
+    <form action="/result" method="POST">
+    <label for="colorPicker">Select a color:</label>
+    <br />
+    <input type="color" id="colorPicker" name="colorPicker">
+    <br/>
+    <label for="mode-choice">Choose a color mode:</label> 
+    <br />
+    <select name="mode-choice" id="mode-choice"> 
+        <option value="monochrome">Monochrome</option> 
+        <option value="monochrome-dark">Monochrome-dark</option> 
+        <option value="monochrome-light">Monochrome-light</option> 
+        <option value="complement">Complement</option> 
+        <option value="triad">Triad</option> 
+        <option value="quad">Quad</option> 
+        <option value="analogic">Analogic</option> 
+    </select>
+    <button type="submit">Submit</button>
     </form>
+    {% endblock %}
 
-    {% if colors %}
-        <h2>Color Palette:</h2>
-        <ul class="color-palette">
-            {% for color in colors %}
-                <li style="background-color: {{color}};">{{ color }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No color palette generated yet.</p>
-    {% endif %}
-{% endblock %}
+
