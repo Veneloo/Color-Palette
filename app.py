@@ -1,7 +1,27 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, url_for, flash, redirect
+from tests.forms import RegistrationForm
+from flask_behind_proxy import FlaskBehindProxy
+from flask import Flask, render_template, url_for
+from flask_sqlalchemy import SQLAlchemy
+app = Flask(__name__)
+proxied = FlaskBehindProxy(app)
+               
+# Database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+db = SQLAlchemy(app)
 
-app = Flask(__name__)                    
+class User(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  username = db.Column(db.String(20), unique=True, nullable=False)
+  email = db.Column(db.String(120), unique=True, nullable=False)
+  password = db.Column(db.String(60), nullable=False)
+
+  def __repr__(self):
+    return f"User('{self.username}', '{self.email}')"
+
+with app.app_context():
+  db.create_all()
+
 
 @app.route("/")
 def welcome_page():
