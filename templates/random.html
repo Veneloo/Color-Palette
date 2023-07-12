@@ -3,8 +3,21 @@
     07/11/23
 -->
 
-{% extends "layoutt.html" %}
+{% extends 'layoutt.html' %}
+
 {% block content %}
-    <h2>{{ subtitle }}</h2>
-    <p>{{ text }}</p>
-{% endblock content %}
+  <h2>Color Palette:</h2>
+  {% if colors %}
+    <ul>
+      {% for color in colors %}
+      <li style="background-color: {{ color }};">{{ color }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No color palette generated yet.</p>
+  {% endif %}
+
+  <form method="POST" action="{{ url_for('random_page') }}">
+    <button type="submit">Generate Random Color Palette</button>
+  </form>
+{% endblock %}

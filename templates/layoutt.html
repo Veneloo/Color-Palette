@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
 
@@ -35,7 +33,10 @@
  <main role="main" class="container">
     <div class="row">
       <div class="col-md-8">
-        <h1>Color Palette</h1> {% block content %}{% endblock %}
+        <h1>{% block subtitle %}{% endblock %}</h1>
+        <p>{% block text %}{% endblock %}</p>
+        {% block content %}
+        {% endblock %}
       </div>
     </div>
   </main>
