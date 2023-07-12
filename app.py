@@ -72,6 +72,11 @@ def login():
         return redirect(url_for('welcome_page'))
     return render_template('login.html', title='Log In', form=form)
 
+@app.route("/logout")
+def logout():
+    db.session.clear()
+    return redirect("/")
+
 # Rest of the routes...
 @app.route("/random")
 def random_page():
