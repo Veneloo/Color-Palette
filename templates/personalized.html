@@ -1,5 +1,23 @@
 {% extends "layoutt.html" %}
+
 {% block content %}
-    <h1>{{subtitle}}</h1>
-    <p> {{text}} </p>
+    <h1>{{ subtitle }}</h1>
+    <p>{{ text }}</p>
+
+    <form method="POST" action="{{ url_for('personalized_page') }}">
+        <label for="color_input">Enter a color (Hex or RGB):</label>
+        <input type="text" id="color_input" name="color_input">
+        <button type="submit">Generate Color Palette</button>
+    </form>
+
+    {% if colors %}
+        <h2>Color Palette:</h2>
+        <ul class="color-palette">
+            {% for color in colors %}
+                <li style="background-color: {{ color }};">{{ color }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No color palette generated yet.</p>
+    {% endif %}
 {% endblock %}
