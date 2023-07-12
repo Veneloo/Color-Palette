@@ -3,14 +3,3 @@
     07/11/23
 -->
 
-{% extends "layoutt.html" %}
-{% block content %}
-    <h2>{{ subtitle }}</h2>
-    <p>{{ text }}</p>
-    <form action="/result" method="POST">
-    <label for="colorPicker">Pick a color:</label>
-    <input type="color" id="colorPicker" name="colorPicker">
-    <button type="submit">Submit</button>
-    </form>
-
-{% endblock content %}
