@@ -5,8 +5,21 @@
     <h1>{{ subtitle }}</h1>
     <p>{{ text }}</p>
     <form action="/result" method="POST">
-    <label for="colorPicker">Pick a color:</label>
+    <label for="colorPicker">Select a color:</label>
+    <br />
     <input type="color" id="colorPicker" name="colorPicker">
+    <br/>
+    <label for="mode-choice">Choose a color mode:</label> 
+    <br />
+    <select name="mode-choice" id="mode-choice"> 
+        <option value="monochrome">Monochrome</option> 
+        <option value="monochrome-dark">Monochrome-dark</option> 
+        <option value="monochrome-light">Monochrome-light</option> 
+        <option value="complement">Complement</option> 
+        <option value="triad">Triad</option> 
+        <option value="quad">Quad</option> 
+        <option value="analogic">Analogic</option> 
+    </select>
     <button type="submit">Submit</button>
     </form>
 
