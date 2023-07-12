@@ -1,11 +1,7 @@
-<!--
-    Axel Cazorla
-    07/11/23
--->
+
 
 {% extends 'layoutt.html' %}
 {% block content %}
-<<<<<<< HEAD
     <h1>{{ subtitle }}</h1>
     <p>{{ text }}</p>
     <form action="/result" method="POST">
@@ -26,6 +22,8 @@
     </select>
     <button type="submit">Submit</button>
     </form>
+    {% endblock %}
+
 
   <!-- <h2>Color Palette:</h2>
 <head>
@@ -42,7 +40,6 @@
     <p>No color palette generated yet.</p>
   {% endif %} -->
 
-  <form method="POST" action="{{ url_for('random_page') }}">
-    <button type="submit">Generate Random Color Palette</button>
-  </form>
-{% endblock %}
+  <!-- <form method="POST" action="{{ url_for('random_page') }}">
+    <button type="submit">Generate Random Color Palette</button> -->
+
