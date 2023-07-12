@@ -1,5 +1,4 @@
-from flask import Flask, render_template, url_for
-
+from flask import Flask, render_template, url_for, request
 
 app = Flask(__name__)                    
 
@@ -11,6 +10,15 @@ def welcome_page():
 @app.route("/random")
 def random_page():
     return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator')
+
+@app.route('/result', methods=['POST'])
+def process():
+    color = request.form['colorPicker']
+    
+
+    result = f"{color}"
+
+    return render_template('result.html', result=result)
 
 @app.route("/personalized")
 def personalized_page():
