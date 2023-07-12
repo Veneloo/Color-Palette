@@ -3,7 +3,6 @@ import requests
 import random
 import re
 
-
 app = Flask(__name__)
 
 @app.route("/")
@@ -11,10 +10,28 @@ app = Flask(__name__)
 def welcome_page():
     return render_template('welcome.html', subtitle='Welcome Page', text='This is the welcome page')
 
-@app.route("/random")
+@app.route("/random", methods=['GET', 'POST'])
 def random_page():
+    if request.method == 'POST':
+    #     # Generate random RGB values
+         rand_color = random.choices(range(256), k=3)
+         rgb_vals = str(rand_color[0]) + ',' + str(rand_color[1]) + ',' + str(rand_color[2])
+
+    #     # Make API request to generate color palette
+         url = 'https://www.thecolorapi.com/scheme?rgb=' + rgb_vals
+         response = requests.get(url).json()
+  # Extract color values from the API response
+         colors = []
+         for i in range(5):
+             color = response['colors'][i]['hex']['value']
+             colors.append(color)
     return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator')
 
+
+
+@app.route("/personalized")
+def personalized_page():
+    return render_template('personalized.html', subtitle='Personalized Palette Generator', text='This is the Personalized Palette Generator')
 
 @app.route('/result', methods=['POST'])
 def process():
@@ -39,38 +56,7 @@ def process():
     return render_template('result.html', result=result, 
                            colorurl = colorurl, one = one, 
                            two = two, three = three, four = four, five = five)
-
-
-@app.route("/personalized", methods=['GET', 'POST'])
-def personalized_page():
-        if request.method == 'POST':
-         # Get color input from form
-            color_input = request.form['color_input']
-
-         # Remove any whitespace and convert to lowercase
-            color_input = color_input.replace(" ", "").lower()
-
-#         # Check if the color input is in RGB format
-        if re.match(r'^\d{1,3},\d{1,3},\d{1,3}$', color_input):
-#             # Extract the RGB values from the input string
-            rgb_values = color_input.split(',')
-
-#             # Convert RGB values to integers
-            r, g, b = map(int, rgb_values)
-
-#             # Make API request to generate color palette based on the RGB values
-            url = f'https://www.thecolorapi.com/scheme?rgb={r},{g},{b}'
-            response = requests.get(url).json()
-
-#             # Check if the API response contains 'colors' key
-            if 'colors' in response:
-                # Extract color values from the API response
-                colors = []
-                for i in range(5):
-                    color = response['colors'][i]['hex']['value']
-                    colors.append(color)
-
-        return render_template('personalized.html', subtitle='Personalized Palette Generator', text='This is the Personalized Palette Generator', colors=colors)
+    
 @app.route("/history")
 def history_page():
     return render_template('history.html', subtitle='History', text='This is the History page')
