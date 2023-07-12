@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, flash, redirect
-from tests.forms import RegistrationForm
+from forms import RegistrationForm, LoginForm
 from flask_behind_proxy import FlaskBehindProxy
 from flask import Flask, render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -26,7 +26,20 @@ with app.app_context():
 @app.route("/")
 def welcome_page():
     return render_template('welcome.html', subtitle='Welcome Page', text='This is the welcome page')
-    
+
+@app.route("/")
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    from forms import RegistrationForm
+    form = RegistrationForm()
+    if form.validate_on_submit(): # checks if entries are valid
+        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'Account created for {form.username.data}!', 'success')
+        return redirect(url_for('home')) # if so - send to home page
+    return render_template('register.html', title='Register', form=form)
+
 @app.route("/random")
 def random_page():
     return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator')
