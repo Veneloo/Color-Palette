@@ -1,16 +1,30 @@
 from flask import Flask, render_template, url_for
+import random, requests
 
-
-app = Flask(__name__)                    
+app = Flask(__name__)
 
 @app.route("/")
 @app.route("/welcome")
 def welcome_page():
     return render_template('welcome.html', subtitle='Welcome Page', text='This is the welcome page')
-    
+
 @app.route("/random")
 def random_page():
-    return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator')
+    # Generate random RGB values
+    rand_color = random.choices(range(256), k=3)
+    rgb_vals = str(rand_color[0]) + ',' + str(rand_color[1]) + ',' + str(rand_color[2])
+
+    # Make API request to generate color palette
+    url = 'https://www.thecolorapi.com/scheme?rgb=' + rgb_vals
+    response = requests.get(url).json()
+
+    # Extract color values from the API response
+    colors = []
+    for i in range(5):
+        color = response['colors'][i]['hex']['value']
+        colors.append(color)
+
+    return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator', colors=colors)
 
 @app.route("/personalized")
 def personalized_page():
@@ -24,6 +38,5 @@ def history_page():
 def favorites_page():
     return render_template('favorites.html', subtitle = 'Favorites', text = 'This is the Favorites page')
 
-  
-if __name__ == '__main__':               
-    app.run(debug=True, host="0.0.0.0", port = 5001)
+if __name__ == '__main__':
+    app.run(debug=True, host="0.0.0.0", port=5001)
