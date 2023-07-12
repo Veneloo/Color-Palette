@@ -25,7 +25,7 @@ def random_page():
          for i in range(5):
              color = response['colors'][i]['hex']['value']
              colors.append(color)
-    return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator')
+    return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator', colors = colors)
 
 
 @app.route('/result', methods=['POST'])
