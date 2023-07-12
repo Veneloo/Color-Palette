@@ -1,5 +1,26 @@
 {% extends "layoutt.html" %}
 {% block content %}
-    <h1>{{subtitle}}</h1>
-    <p> {{text}} </p>
-{% endblock content%}
+    <h1>{{ subtitle }}</h1>
+    <p>{{ text }}</p>
+
+    {% if favorites %}
+        <h3>Favorite Colors:</h3>
+        {% for favorite in favorites %}
+           
+            <div>
+                <h4>Result:</h4>
+                <img src="{{ favorite['one'] }}">
+                <img src="{{ favorite['two'] }}">
+                <img src="{{ favorite['three'] }}">
+                <img src="{{ favorite['four'] }}">
+                <img src="{{ favorite['five'] }}">
+            </div>
+            <hr>
+        {% endfor %}
+        <form action="{{ url_for('clear_favorites') }}" method="POST">
+            <button type="submit">Clear Favorites</button>
+        </form>
+    {% else %}
+        <p>No favorite colors selected.</p>
+    {% endif %}
+{% endblock %}
