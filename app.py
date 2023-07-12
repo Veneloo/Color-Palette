@@ -4,6 +4,7 @@ from flask import Flask, render_template
 app = Flask(__name__)                    
 
 @app.route("/")
+@app.route("welcome")
 def welcome_page():
     return render_template('welcome.html', subtitle='Welcome Page', text='This is the welcome page')
     
