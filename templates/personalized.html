@@ -3,9 +3,13 @@
 {% block content %}
     <h1>{{ subtitle }}</h1>
     <p>{{ text }}</p>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='personalized.css') }}">
+      
+</head>
 
     <form method="POST" action="{{ url_for('personalized_page') }}">
-        <label for="color_input">Enter a color (Hex or RGB):</label>
+        <label for="color_input">Enter a color (Hex):</label>
         <input type="text" id="color_input" name="color_input">
         <button type="submit">Generate Color Palette</button>
     </form>

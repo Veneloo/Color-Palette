@@ -1,0 +1,30 @@
+.personalized-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .personalized-form {
+    margin-bottom: 20px;
+  }
+  
+  .personalized-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .personalized-color-palette {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .personalized-color-palette .color {
+    height: 150px;
+    width: 100px;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
