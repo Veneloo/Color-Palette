@@ -1,13 +1,24 @@
-{% extends "layoutt.html" %}
+{% extends 'layoutt.html' %}
 {% block content %}
-  <h1>Color Processing Result</h1>
-  <h2>Picked:</h2>
-  <img src = {{colorurl}}>
+    <h1>{{ subtitle }}</h1>
+    <p>{{ text }}</p>
 
-  <h2>Result:</h2>
-  <img src = {{one}} >
-  <img src = {{two}} >
-  <img src = {{three}} >
-  <img src = {{four}} >
-  <img src = {{five}} >
-  {% endblock content %}
+    <div>
+        <h3>Color Image:</h3>
+        <img src="{{ colorurl }}" alt="Color Image">
+    </div>
+    <div>
+        <h2>Result:</h2>
+        <img src="{{ one }}">
+        <img src="{{ two }}">
+        <img src="{{ three }}">
+        <img src="{{ four }}">
+        <img src="{{ five }}">
+    </div>
+    <div style="margin-top: 10px;">
+        <form action="/favorites" method="POST">
+            <input type="hidden" name="color" value="{{ color }}">
+            <button type="submit">Add to Favorites</button>
+        </form>
+    </div>
+{% endblock %}
