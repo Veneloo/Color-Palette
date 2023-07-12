@@ -1,7 +1,11 @@
+<!--
+    Axel Cazorla
+    07/11/23
+-->
 
-
-{% extends "layoutt.html" %}
+{% extends 'layoutt.html' %}
 {% block content %}
+<<<<<<< HEAD
     <h1>{{ subtitle }}</h1>
     <p>{{ text }}</p>
     <form action="/result" method="POST">
@@ -23,4 +27,22 @@
     <button type="submit">Submit</button>
     </form>
 
-{% endblock content %}
+  <!-- <h2>Color Palette:</h2>
+<head>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='random.css') }}">
+
+</head>
+  {% if colors %}
+    <ul>
+      {% for color in colors %}
+      <li style="background-color: {{ color }};">{{ color }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No color palette generated yet.</p>
+  {% endif %} -->
+
+  <form method="POST" action="{{ url_for('random_page') }}">
+    <button type="submit">Generate Random Color Palette</button>
+  </form>
+{% endblock %}
