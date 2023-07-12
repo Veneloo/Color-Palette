@@ -1,13 +1,20 @@
-from flask import Flask, render_template, url_for, flash, redirect
+import os
+from flask import Flask, render_template, url_for, flash, redirect, session
 from flask_sqlalchemy import SQLAlchemy
-# from forms import LoginForm
+from flask_session import Session
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Length, Email, EqualTo
 from flask_behind_proxy import FlaskBehindProxy
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)
-app.config['SECRET_KEY'] = '53046ce2de3a349d31131737702b9825'
+
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+app.config['SECRET_KEY'] = 'super secret key'
+# app.config['SECRET_KEY'] = '53046ce2de3a349d31131737702b9825'
+Session(app)
 
 
 # Database
@@ -66,6 +73,7 @@ def register():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    session.clear()
     form = LoginForm()
     if form.validate_on_submit():
         flash(f'Welcome Back {form.username.data}!', 'success')
