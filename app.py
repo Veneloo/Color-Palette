@@ -1,5 +1,9 @@
 import os
-from flask import Flask, render_template, url_for, flash, redirect, session
+
+import requests
+import random
+import re
+from flask import Flask, render_template, url_for, flash, redirect, session, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from flask_wtf import FlaskForm
@@ -55,12 +59,6 @@ class LoginForm(FlaskForm):
         user = User.query.filter_by(username=username.data).first()
         if user is None:
             raise ValidationError('Username does not exit. Create an account')
-from flask import Flask, render_template, url_for, request
-import requests
-import random
-import re
-
-app = Flask(__name__)
 
 @app.route("/")
 @app.route("/welcome")
