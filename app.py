@@ -28,11 +28,6 @@ def random_page():
     return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator')
 
 
-
-@app.route("/personalized")
-def personalized_page():
-    return render_template('personalized.html', subtitle='Personalized Palette Generator', text='This is the Personalized Palette Generator')
-
 @app.route('/result', methods=['POST'])
 def process():
     color = request.form['colorPicker']
