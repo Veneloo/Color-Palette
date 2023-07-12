@@ -44,26 +44,17 @@ def process():
 
 @app.route("/personalized", methods=['GET', 'POST'])
 def personalized_page():
-        if request.method == 'POST':
-         # Get color input from form
-            color_input = request.form['color_input']
+    if request.method == 'POST':
+        # Get color input from form
+        color_input = request.form['color_input']
 
-         # Remove any whitespace and convert to lowercase
-            color_input = color_input.replace(" ", "").lower()
-
-#         # Check if the color input is in RGB format
-        if re.match(r'^\d{1,3},\d{1,3},\d{1,3}$', color_input):
-#             # Extract the RGB values from the input string
-            rgb_values = color_input.split(',')
-
-#             # Convert RGB values to integers
-            r, g, b = map(int, rgb_values)
-
-#             # Make API request to generate color palette based on the RGB values
-            url = f'https://www.thecolorapi.com/scheme?rgb={r},{g},{b}'
+        # Check if the color input starts with "#"
+        if color_input.startswith("#"):
+            # Make API request to generate color palette based on user input
+            url = 'https://www.thecolorapi.com/scheme?hex=' + color_input[1:]  # Exclude the "#" symbol
             response = requests.get(url).json()
 
-#             # Check if the API response contains 'colors' key
+            # Check if the API response contains 'colors' key
             if 'colors' in response:
                 # Extract color values from the API response
                 colors = []
@@ -71,7 +62,10 @@ def personalized_page():
                     color = response['colors'][i]['hex']['value']
                     colors.append(color)
 
-        return render_template('personalized.html', subtitle='Personalized Palette Generator', text='This is the Personalized Palette Generator', colors=colors)
+                return render_template('personalized.html', subtitle='Personalized Palette Generator', text='This is the Personalized Palette Generator', colors=colors)
+
+    return render_template('personalized.html', subtitle='Personalized Palette Generator', text='This is the Personalized Palette Generator', colors=None)
+
 @app.route("/history")
 def history_page():
     return render_template('history.html', subtitle='History', text='This is the History page')
