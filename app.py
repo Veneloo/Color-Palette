@@ -8,7 +8,7 @@ app = Flask(__name__)
 def welcome_page():
     return render_template('welcome.html', subtitle='Welcome Page', text='This is the welcome page')
 
-@app.route("/random")
+@app.route("/random", methods=['GET','POST'])
 def random_page():
     # Generate random RGB values
     rand_color = random.choices(range(256), k=3)
