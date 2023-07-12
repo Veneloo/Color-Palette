@@ -7,6 +7,10 @@
 
 {% block content %}
   <h2>Color Palette:</h2>
+<head>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='random.css') }}">
+
+</head>
   {% if colors %}
     <ul>
       {% for color in colors %}

@@ -1,0 +1,35 @@
+ul {
+    list-style-type: none;
+    padding: 10;
+  }
+  
+  li {
+    height: 500px;
+    width: 150px;
+    display: inline-block;
+    margin: 5px;
+  }
+  
+  .column {
+    float: left;
+  }
+  
+  .column:nth-child(1) {
+    background-color: #f8f9fa;
+  }
+  
+  .column:nth-child(2) {
+    background-color: #e9ecef;
+  }
+  
+  .column:nth-child(3) {
+    background-color: #dee2e6;
+  }
+  
+  .column:nth-child(4) {
+    background-color: #ced4da;
+  }
+  
+  .column:nth-child(5) {
+    background-color: #adb5bd;
+  }
