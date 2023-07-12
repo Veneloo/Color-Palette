@@ -162,9 +162,43 @@ def personalized_page():
 def history_page():
     return render_template('history.html', subtitle='History', text='This is the History page')
 
-@app.route("/favorites")
+@app.route('/favorites', methods=['GET', 'POST'])
 def favorites_page():
-    return render_template('favorites.html', subtitle='Favorites', text='This is the Favorites page')
+    if request.method == 'POST':
+        color = request.form['color']
+        one = request.form['one']
+        two = request.form['two']
+        three = request.form['three']
+        four = request.form['four']
+        five = request.form['five']
+        
+        if 'favorites' not in session:
+            session['favorites'] = []
+        
+        session['favorites'].append({
+            'color': color,
+            'one': one,
+            'two': two,
+            'three': three,
+            'four': four,
+            'five': five
+        })
+        
+        flash('Colors added to favorites!', 'success')
+        return redirect(url_for('favorites_page'))
+    
+    return render_template('favorites.html', subtitle='Favorites', text='This is the Favorites page', favorites=session.get('favorites', []))
+
+
+@app.route('/clear-favorites', methods=['POST'])
+def clear_favorites():
+    session.pop('favorites', None)
+    flash('Favorites cleared!', 'success')
+    return redirect(url_for('favorites_page'))
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5001)
