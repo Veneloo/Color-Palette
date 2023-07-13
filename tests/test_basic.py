@@ -34,7 +34,7 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def clear_entries(self):
-        response = self.app.get('/history,' follow_redirects=True)
+        response = self.app.post('/history,', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
 
