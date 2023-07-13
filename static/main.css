@@ -11,12 +11,6 @@ header {
   background: #0882ce;
 }
 
-<<<<<<< HEAD
-header {
-  background-color: #7698a8;
-  color: #7e3535;
-  padding: 20px;
-=======
 .websitetitle{
   color:white;
   font-size: 36px;
@@ -29,7 +23,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Lilita One', cursive;
   font-weight: lighter;
   overflow-wrap: break-word;
->>>>>>> 8faf4760ba968222d089d8107034cf388c4ec804
 }
 
 .navbar {
@@ -46,46 +39,9 @@ h1 {
   display: inline-block;
   padding: 10px;
   border-radius: 5px;
-<<<<<<< HEAD
-  color: #6d2a2a;
-}
-=======
 } */
->>>>>>> 8faf4760ba968222d089d8107034cf388c4ec804
 
 
-<<<<<<< HEAD
-
-.navbar {
-  background-color: #a7b86b; /* Change the background color to a complementary color */
-  padding: 10px;
-}
-
-.card {
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(190, 147, 147, 0.1);
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.card-title {
-  font-size: 24px;
-  margin: 0;
-  color: #2196f3; /* Change the color to a complementary color */
-}
-
-.card-text {
-  color: #9e5a5a;
-}
-
-/* Add your own styles below this line */
-
-/* Example: Add a colorful background to the "Welcome" link */
-.navbar a:first-child {
-  background-color: #ff4081;
-  padding: 8px 12px;
-=======
 .navbar a {
 
   color: black;
@@ -106,7 +62,6 @@ h1 {
 .card {
   background: white;
   border: 1px solid black;
->>>>>>> 8faf4760ba968222d089d8107034cf388c4ec804
   border-radius: 3px;
   margin-top: 60px;
   padding: 40px;

@@ -2,14 +2,7 @@
 
 {% block content %}
     <h1>{{ subtitle }}</h1>
-<<<<<<< HEAD
-    <form action="{{ url_for('random_page') }}" method="POST">
- 
-        <button type="submit" class="btn btn-primary">Generate Random Color Palette</button>
-    </form>
-=======
     <form action="/ranresult" method="POST">
     <p>Get inspirated by generating a random color palette!</p>
     <button type="submit">Start</button>
->>>>>>> 8faf4760ba968222d089d8107034cf388c4ec804
 {% endblock %}
