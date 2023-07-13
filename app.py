@@ -90,7 +90,7 @@ class Favorite(db.Model):
 @app.route("/")
 @app.route("/welcome")
 def welcome_page():
-    return render_template('welcome.html', subtitle='Welcome Page', text='This is the welcome page')
+    return render_template('welcome.html')
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
