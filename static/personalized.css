@@ -1,4 +1,5 @@
 /* Custom CSS styles for personalized.html */
+
 .personalized-container {
   display: flex;
   justify-content: center;
@@ -7,14 +8,17 @@
 }
 
 .personalized-form {
-  margin-top: 50px;
   margin-bottom: 20px;
 }
 
 .personalized-form input[type="text"] {
   width: 100%;
-  padding: 10px;
+  padding: 1000px; /* Increase the padding to make the color box input bigger */
   margin-bottom: 10px;
+}
+form input[type="color"] {
+  width: 100px; /* Increase the width to make the color picker box bigger */
+  height: 100px; /* Increase the height to make the color picker box taller */
 }
 
 .personalized-color-palette {
@@ -29,7 +33,9 @@
   display: inline-block;
   margin-right: 10px;
 }
+
 /* Add your own personalized styles here */
+
 /* Example: Change the background color of the header for personalized page */
 header {
   background-color: #8e24aa;
