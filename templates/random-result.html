@@ -29,10 +29,6 @@
     </form>
   </div>
   <div style="margin-top: 10px;">
-    {% if session['last_visited_tab'] %}
-      <a href="{{ url_for(session['last_visited_tab']) }}" class="btn btn-primary">Return</a>
-    {% else %}
-      <p>No last visited tab recorded.</p>
-    {% endif %}
+    <a href="{{ url_for('random_page') }}" class="btn btn-primary">Return</a>
   </div>
 {% endblock %}

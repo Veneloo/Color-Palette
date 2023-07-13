@@ -238,10 +238,6 @@ def random_result():
 
     
 
-
-
-
-
 @app.route('/result', methods=['GET', 'POST'])
 def result():
     color = request.form['colorPicker']
