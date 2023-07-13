@@ -28,10 +28,20 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   justify-content: flex-end;
   background: rgba(8, 66, 141, 0.2);
-  padding: 10px;
 }
+/*   
+h1 {
+  font-size: 28px;
+  margin: 0;
+  background-color: #B3E5FC;
+  display: inline-block;
+  padding: 10px;
+  border-radius: 5px;
+} */
+
 
 .navbar a {
+
   color: black;
   text-decoration: none;
   font-family: 'Inconsolata', monospace;
@@ -56,11 +66,14 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 20px;
 }
 
-.card-title {
-  font-size: 24px;
-  margin-bottom: 10px;
+
+/* Example: Add a hover effect to the links */
+.navbar a:hover {
+  background-color: #ff4081;
 }
 
-.card-text {
-  color: #666666;
-}
+/* Example: Style the card with a border and a gradient background */
+.card {
+  border: 1px solid #ddd;
+  background-image: linear-gradient(to bottom, #fff 0%, #f9f9f9 100%);
+} 

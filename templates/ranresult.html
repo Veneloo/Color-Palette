@@ -5,11 +5,13 @@
   <p>{{ text }}</p>
   <div>
     <h2>Result:</h2>
+    <p> Here is a {{rand_mode}} color scheme! </p>
     <img src="{{ one }}">
     <img src="{{ two }}">
     <img src="{{ three }}">
     <img src="{{ four }}">
     <img src="{{ five }}">
+    
   </div>
   <div style="margin-top: 10px;">
     <form action="{{ url_for('favorites_page') }}" method="POST">
