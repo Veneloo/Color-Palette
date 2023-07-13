@@ -1,30 +1,6 @@
-/* Custom CSS styles */
 body {
-  color: #333333;
-  margin-top: 5rem;
   font-family: Arial, sans-serif;
-}
-
-header {
-  background: #333333;
-  padding: 10px;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: #444444;
-}
-
-.navbar {
-  display: flex;
-  justify-content: flex-end;
-  background: #333333;
-  padding: 10px;
-}
-
-.navbar a {
-  color: #ffffff;
-  text-decoration: none;
-  margin-right: 10px;
+  background-image: linear-gradient(to bottom right, #FFD3E6, #D3CCE3, #CCE5FF, #C3DDE6);
 }
 
 .container {
@@ -33,19 +9,73 @@ h1, h2, h3, h4, h5, h6 {
   padding: 20px;
 }
 
+header {
+  background-color: #B3E5FC;
+  color: #fff;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 28px;
+  margin: 0;
+  background-color: #B3E5FC;
+  display: inline-block;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.username {
+  font-size: 16px;
+  color: #BBDEFB;
+  border-bottom: 2px solid #BBDEFB;
+  padding-bottom: 5px;
+}
+
+.navbar {
+  background-color: #555;
+  padding: 10px;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
 .card {
-  background: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin-bottom: 20px;
 }
 
 .card-title {
   font-size: 24px;
-  margin-bottom: 10px;
+  margin: 0;
+  color: #333;
 }
 
 .card-text {
-  color: #666666;
+  color: #666;
+}
+
+/* Add your own styles below this line */
+
+/* Example: Add a colorful background to the "Welcome" link */
+.navbar a:first-child {
+  background-color: #ff4081;
+  padding: 8px 12px;
+  border-radius: 3px;
+}
+
+/* Example: Add a hover effect to the links */
+.navbar a:hover {
+  background-color: #ff4081;
+}
+
+/* Example: Style the card with a border and a gradient background */
+.card {
+  border: 1px solid #ddd;
+  background-image: linear-gradient(to bottom, #fff 0%, #f9f9f9 100%);
 }
