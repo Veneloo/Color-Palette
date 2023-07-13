@@ -158,34 +158,46 @@ def logout():
 
 @app.route("/random", methods=['GET', 'POST'])
 def random_page():
+
     if request.method == 'POST':
-        # Generate random hex color
-        rand_color = '#{:06x}'.format(random.randint(0, 0xFFFFFF))
+    #     # Generate random RGB values
+         rand_color = random.choices(range(256), k=3)
+         rgb_vals = str(rand_color[0]) + ',' + str(rand_color[1]) + ',' + str(rand_color[2])
 
-        # Make API request to generate color palette
-        url = f"https://www.thecolorapi.com/scheme?hex={rand_color[1:]}"
-        response = requests.get(url).json()
+    #     # Make API request to generate color palette
+         url = 'https://www.thecolorapi.com/scheme?rgb=' + rgb_vals
+         response = requests.get(url).json()
+  # Extract color values from the API response
+         colors = []
+         for i in range(5):
+             color = response['colors'][i]['hex']['value']
+             colors.append(color)
 
-        # Extract color values from the API response
-        colors = []
-        for i in range(5):
-            color = response['colors'][i]['hex']['value']
-            colors.append(color)
+    return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator')
 
-        return redirect(url_for('random_result', color=colors[0], result=colors[1:]))
+@app.route('/ranresult', methods=['POST'])
+def process1():
+    rand_color = random.choices(range(256), k=3)
+    rand_mode = random.choice(["monochrome-dark", "monochrome-light", "complement",
+                              "triad", "quad",  "analogic"])
+    rgb_vals = str(rand_color[0]) + ',' + str(rand_color[1]) + ',' + str(rand_color[2])
+    url = f"https://www.thecolorapi.com/scheme?rgb={rgb_vals}&mode={rand_mode}"
 
-    # Generate random hex color
-    rand_color = '#{:06x}'.format(random.randint(0, 0xFFFFFF))
-
-    # Make API request to generate color palette
-    url = f"https://www.thecolorapi.com/scheme?hex={rand_color[1:]}"
     response = requests.get(url).json()
 
-    # Extract color values from the API response
-    colors = []
+# Print urls of 5 random monochromatic colors
+    result = []
     for i in range(5):
-        color = response['colors'][i]['hex']['value']
-        colors.append(color)
+        result.append(response['colors'][i]['image']['bare'])
+    one = result[0]
+    two = result [1]
+    three = result[2]
+    four = result [3]
+    five = result[4]
+
+    
+    return render_template('ranresult.html', result=result, rand_mode = rand_mode, one = one, 
+                           two = two, three = three, four = four, five = five)
 
     return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator', colors=colors)
 

@@ -1,0 +1,30 @@
+{% extends 'layoutt.html' %}
+
+{% block content %}
+  <h1>{{ subtitle }}</h1>
+  <p>{{ text }}</p>
+  <div>
+    <h2>Result:</h2>
+    <p> Here is a {{rand_mode}} color scheme! </p>
+    <img src="{{ one }}">
+    <img src="{{ two }}">
+    <img src="{{ three }}">
+    <img src="{{ four }}">
+    <img src="{{ five }}">
+    
+  </div>
+  <div style="margin-top: 10px;">
+    <form action="{{ url_for('favorites_page') }}" method="POST">
+      <input type="hidden" name="color" value="{{ color }}">
+      <input type="hidden" name="one" value="{{ one }}">
+      <input type="hidden" name="two" value="{{ two }}">
+      <input type="hidden" name="three" value="{{ three }}">
+      <input type="hidden" name="four" value="{{ four }}">
+      <input type="hidden" name="five" value="{{ five }}">
+      <button type="submit">Add to Favorites</button>
+    </form>
+  </div>
+  <div style="margin-top: 10px;">
+    <a href="{{ url_for('random_page') }}" class="btn btn-primary">Return</a>
+  </div>
+{% endblock %}

@@ -1,20 +1,44 @@
+/* Custom CSS styles */
+
 body {
-  font-family: Arial, sans-serif;
-  background-image: linear-gradient(to bottom right, #FFD3E6, #D3CCE3, #CCE5FF, #C3DDE6);
+  color:rgb(76, 74, 74) ;
+  font-size: 20px;
+  line-height: 25px;
+  font-family: 'Inconsolata', monospace;
 }
 
-.container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 20px;
+header {
+  background: #0882ce;
 }
 
+<<<<<<< HEAD
 header {
   background-color: #7698a8;
   color: #7e3535;
   padding: 20px;
+=======
+.websitetitle{
+  color:white;
+  font-size: 36px;
+  font-family: 'Lilita One', cursive;
+  font-weight: normal;
+
+}
+h1, h2, h3, h4, h5, h6 {
+  color: black;
+  font-family: 'Lilita One', cursive;
+  font-weight: lighter;
+  overflow-wrap: break-word;
+>>>>>>> 8faf4760ba968222d089d8107034cf388c4ec804
 }
 
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(8, 66, 141, 0.2);
+  line-height: 1;
+}
+/*   
 h1 {
   font-size: 28px;
   margin: 0;
@@ -22,21 +46,15 @@ h1 {
   display: inline-block;
   padding: 10px;
   border-radius: 5px;
+<<<<<<< HEAD
   color: #6d2a2a;
 }
+=======
+} */
+>>>>>>> 8faf4760ba968222d089d8107034cf388c4ec804
 
-.username {
-  font-size: 16px;
-  color: #BBDEFB;
-  border-bottom: 2px solid #BBDEFB;
-  padding-bottom: 5px;
-}
 
-.navbar {
-  background-color: #555;
-  padding: 10px;
-}
-
+<<<<<<< HEAD
 
 .navbar {
   background-color: #a7b86b; /* Change the background color to a complementary color */
@@ -67,8 +85,34 @@ h1 {
 .navbar a:first-child {
   background-color: #ff4081;
   padding: 8px 12px;
-  border-radius: 3px;
+=======
+.navbar a {
+
+  color: black;
+  text-decoration: none;
+  font-family: 'Inconsolata', monospace;
+  font-weight: bold;
+  font-size: 20px;
+  margin-right: 50px;
 }
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  
+}
+
+.card {
+  background: white;
+  border: 1px solid black;
+>>>>>>> 8faf4760ba968222d089d8107034cf388c4ec804
+  border-radius: 3px;
+  margin-top: 60px;
+  padding: 40px;
+  margin-bottom: 20px;
+}
+
 
 /* Example: Add a hover effect to the links */
 .navbar a:hover {
@@ -79,4 +123,4 @@ h1 {
 .card {
   border: 1px solid #ddd;
   background-image: linear-gradient(to bottom, #fff 0%, #f9f9f9 100%);
-}
+} 
