@@ -3,11 +3,12 @@
 {% block content %}
     <h1>{{ subtitle }}</h1>
     <form action="/result" method="POST">
-    <label for="colorPicker">Select a color:</label>
+    <label for="colorPicker">Select the color of the article of clothing you're basing your 
+        outfit off of:</label>
     <br />
     <input type="color" id="colorPicker" name="colorPicker">
     <br/>
-    <label for="mode-choice">Choose a color mode:</label> 
+    <label for="mode-choice">Choose a color scheme for the overall outfit:</label> 
     <br />
     <select name="mode-choice" id="mode-choice"> 
         <option value="monochrome">Monochrome</option> 
