@@ -5,43 +5,36 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='personalized.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='random.css') }}">
 </head>
 
 <body>
-  <header class="site-header">
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand mr-4" href="/">Color Palette</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarToggle">
-          <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link" href="/">Welcome</a>
-            <a class="nav-item nav-link" href="/random">Random</a>
-            <a class="nav-item nav-link" href="/personalized">Personalized</a>
-            <a class="nav-item nav-link" href="/history">History</a>
-            <a class="nav-item nav-link" href="/favorites">Favorites</a>
-          </div>
-        </div>
-      </div>
-    </nav>
-  </header>
- <main role="main" class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <h1>{% block subtitle %}{% endblock %}</h1>
-        <p>{% block text %}{% endblock %}</p>
-        {% block content %}
-        {% endblock %}
-      </div>
+  <header>
+    <div class="container">
+      <h1>Color Palette</h1>
     </div>
-  </main>
+  </header>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/">Welcome</a>
+      <a href="/random">Random</a>
+      <a href="/personalized">Personalized</a>
+      <a href="/history">History</a>
+      <a href="/favorites">Favorites</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="card">
+      <h1 class="card-title">{% block subtitle %}{% endblock %}</h1>
+      <p class="card-text">{% block text %}{% endblock %}</p>
+      {% block content %}
+      {% endblock %}
+    </div>
+  </div>
 </body>
 
 </html>
