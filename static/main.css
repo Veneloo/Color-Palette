@@ -22,12 +22,14 @@ h1, h2, h3, h4, h5, h6 {
   color: black;
   font-family: 'Lilita One', cursive;
   font-weight: lighter;
+  overflow-wrap: break-word;
 }
 
 .navbar {
   display: flex;
   justify-content: flex-end;
   background: rgba(8, 66, 141, 0.2);
+  line-height: 1;
 }
 
 .navbar a {
