@@ -289,12 +289,21 @@ def personalized_page():
 
     return render_template('personalized.html', subtitle='Personalized Palette Generator', text='This is the Personalized Palette Generator', colors=None)
 
-@app.route('/history')
+@app.route('/history', methods=['GET', 'POST'])
 @login_required
 def history():
+    if request.method == 'POST':
+        # Handle the POST request here
+        # For example, you can clear the history or perform any other actions
+
+        # Redirect to the updated history page after handling the POST request
+        return redirect(url_for('history'))
+
     favorites = Favorite.query.filter_by(user_id=current_user.id).all()
     color_entries = ColorEntry.query.filter_by(user_id=current_user.id).all()
+
     return render_template('history.html', subtitle='History', favorites=favorites, color_entries=color_entries)
+
 
 
 @app.route('/favorites', methods=['GET', 'POST'])
@@ -329,6 +338,18 @@ def clear_favorites():
         return redirect(url_for('favorites_page'))
     
     return redirect(url_for('favorites_page'))
+
+@app.route('/clear-entries', methods=['POST'])
+@login_required
+def clear_entries():
+    if request.method == 'POST':
+    # Delete all favorite entries and color entries for the current user
+        Favorite.query.filter_by(user_id=current_user.id).delete()
+        ColorEntry.query.filter_by(user_id=current_user.id).delete()
+        db.session.commit()
+    
+        flash('Entries cleared!', 'success')
+        return redirect(url_for('history'))
 
 
 if __name__ == '__main__':

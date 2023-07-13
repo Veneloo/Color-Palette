@@ -1,43 +1,51 @@
-{% extends 'layoutt.html' %}
-
-
+{% extends "layoutt.html" %}
+{% block subtitle %}History{% endblock %}
+{% block text %}This is the History{% endblock %}
 
 {% block content %}
-  <h1>{{ subtitle }}</h1>
+    <h1>{{ subtitle }}</h1>
+    <p>{{ text }}</p>
 
-  <div>
-    <h3>Favorite Entries:</h3>
-    {% if favorites %}
-      <ul>
-        {% for favorite in favorites %}
-          <li>{{ favorite.color }}</li>
-          <li>{{ favorite.one }}</li>
-          <li>{{ favorite.two }}</li>
-          <li>{{ favorite.three }}</li>
-          <li>{{ favorite.four }}</li>
-          <li>{{ favorite.five }}</li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>No favorite entries found.</p>
-    {% endif %}
-  </div>
+    {% if favorites or color_entries %}
+        <h3>Favorite Colors:</h3>
+        {% if favorites %}
+            {% for favorite in favorites %}
+                <div>
+                    <h4>Result:</h4>
+                    <img src="{{ favorite.one }}">
+                    <img src="{{ favorite.two }}">
+                    <img src="{{ favorite.three }}">
+                    <img src="{{ favorite.four }}">
+                    <img src="{{ favorite.five }}">
+                </div>
+                <hr>
+            {% endfor %}
+        {% else %}
+            <p>No favorite colors selected.</p>
+        {% endif %}
 
-  <div>
-    <h3>Color Entries:</h3>
-    {% if color_entries %}
-      <ul>
-        {% for color_entry in color_entries %}
-          <li>{{ color_entry.color }}</li>
-          <li>{{ color_entry.one }}</li>
-          <li>{{ color_entry.two }}</li>
-          <li>{{ color_entry.three }}</li>
-          <li>{{ color_entry.four }}</li>
-          <li>{{ color_entry.five }}</li>
-        {% endfor %}
-      </ul>
+        <h3>Color Entries:</h3>
+        {% if color_entries %}
+            {% for color_entry in color_entries %}
+                <div>
+                    <h4>Result:</h4>
+                    <img src="{{ color_entry.one }}">
+                    <img src="{{ color_entry.two }}">
+                    <img src="{{ color_entry.three }}">
+                    <img src="{{ color_entry.four }}">
+                    <img src="{{ color_entry.five }}">
+                </div>
+                <hr>
+            {% endfor %}
+        {% else %}
+            <p>No color entries found.</p>
+        {% endif %}
+
+        <form action="{{ url_for('clear_entries') }}" method="POST">
+            <input type="hidden" name="_method" value="POST">
+            <button type="submit" class="btn btn-danger">Clear Entries</button>
+        </form>
     {% else %}
-      <p>No color entries found.</p>
+        <p>No entries found.</p>
     {% endif %}
-  </div>
 {% endblock %}
