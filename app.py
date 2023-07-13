@@ -137,20 +137,44 @@ def logout():
 
 @app.route("/random")
 def random_page():
-    if request.method == 'POST':
-    #     # Generate random RGB values
-         rand_color = random.choices(range(256), k=3)
-         rgb_vals = str(rand_color[0]) + ',' + str(rand_color[1]) + ',' + str(rand_color[2])
+#     if request.method == 'POST':
+#     #     # Generate random RGB values
+#          rand_color = random.choices(range(256), k=3)
+#          rgb_vals = str(rand_color[0]) + ',' + str(rand_color[1]) + ',' + str(rand_color[2])
 
-    #     # Make API request to generate color palette
-         url = 'https://www.thecolorapi.com/scheme?rgb=' + rgb_vals
-         response = requests.get(url).json()
-  # Extract color values from the API response
-         colors = []
-         for i in range(5):
-             color = response['colors'][i]['hex']['value']
-             colors.append(color)
+#     #     # Make API request to generate color palette
+#          url = 'https://www.thecolorapi.com/scheme?rgb=' + rgb_vals
+#          response = requests.get(url).json()
+#   # Extract color values from the API response
+#          colors = []
+#          for i in range(5):
+#              color = response['colors'][i]['hex']['value']
+#              colors.append(color)
     return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator')
+
+@app.route('/ranresult', methods=['POST'])
+def process1():
+    rand_color = random.choices(range(256), k=3)
+    rand_mode = random.choice(["monochrome-dark", "monochrome-light", "complement",
+                              "triad", "quad",  "analogic"])
+    rgb_vals = str(rand_color[0]) + ',' + str(rand_color[1]) + ',' + str(rand_color[2])
+    url = f"https://www.thecolorapi.com/scheme?rgb={rgb_vals}&mode={rand_mode}"
+
+    response = requests.get(url).json()
+
+# Print urls of 5 random monochromatic colors
+    result = []
+    for i in range(5):
+        result.append(response['colors'][i]['image']['bare'])
+    one = result[0]
+    two = result [1]
+    three = result[2]
+    four = result [3]
+    five = result[4]
+  
+    
+    return render_template('ranresult.html', result=result, one = one, 
+                           two = two, three = three, four = four, five = five)
 
 
 @app.route('/result', methods=['POST'])
