@@ -1,0 +1,37 @@
+{% extends 'layoutt.html' %}
+
+{% block content %}
+  <h1>{{ subtitle }}</h1>
+  <p>{{ text }}</p>
+
+  <div>
+    <h3>Color Image:</h3>
+    <img src="{{ colorurl }}" alt="Color Image">
+  </div>
+  <div>
+    <h2>Result:</h2>
+    <img src="{{ one }}">
+    <img src="{{ two }}">
+    <img src="{{ three }}">
+    <img src="{{ four }}">
+    <img src="{{ five }}">
+  </div>
+  <div style="margin-top: 10px;">
+    <form action="{{ url_for('favorites_page') }}" method="POST">
+      <input type="hidden" name="color" value="{{ color }}">
+      <input type="hidden" name="one" value="{{ one }}">
+      <input type="hidden" name="two" value="{{ two }}">
+      <input type="hidden" name="three" value="{{ three }}">
+      <input type="hidden" name="four" value="{{ four }}">
+      <input type="hidden" name="five" value="{{ five }}">
+      <button type="submit">Add to Favorites</button>
+    </form>
+  </div>
+  <div style="margin-top: 10px;">
+    {% if session['last_visited_tab'] %}
+      <a href="{{ url_for(session['last_visited_tab']) }}" class="btn btn-primary">Return</a>
+    {% else %}
+      <p>No last visited tab recorded.</p>
+    {% endif %}
+  </div>
+{% endblock %}

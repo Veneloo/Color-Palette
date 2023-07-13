@@ -86,6 +86,19 @@ class Favorite(db.Model):
     def __repr__(self):
         return f"Favorite('{self.color}', '{self.one}', '{self.two}', '{self.three}', '{self.four}', '{self.five}')"
 
+class ColorEntry(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    color = db.Column(db.String(7), nullable=False)
+    one = db.Column(db.String(50), nullable=False)
+    two = db.Column(db.String(50), nullable=False)
+    three = db.Column(db.String(50), nullable=False)
+    four = db.Column(db.String(50), nullable=False)
+    five = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"ColorEntry('{self.color}', '{self.one}', '{self.two}', '{self.three}', '{self.four}', '{self.five}')"
+
 
 @app.route("/")
 @app.route("/welcome")
@@ -184,6 +197,16 @@ def result():
     five = result[4]
   
     return render_template('result.html', result=result, colorurl=colorurl, one=one, two=two, three=three, four=four, five=five)
+    
+    # Create a new ColorEntry instance
+    color_entry = ColorEntry(color=color, one=one, two=two, three=three, four=four, five=five, user_id=current_user.id)
+    
+    # Add the color entry to the database
+    db.session.add(color_entry)
+    db.session.commit()
+
+    # Redirect to history page
+    return redirect(url_for('history'))
 
 
 
@@ -211,7 +234,14 @@ def personalized_page():
 
     return render_template('personalized.html', subtitle='Personalized Palette Generator', text='This is the Personalized Palette Generator', colors=None)
 
-@app.route('/history', methods=['GET', 'POST'])
+@app.route('/history')
+@login_required
+def history():
+    favorites = Favorite.query.filter_by(user_id=current_user.id).all()
+    color_entries = ColorEntry.query.filter_by(user_id=current_user.id).all()
+    return render_template('history.html', subtitle='History', favorites=favorites, color_entries=color_entries)
+
+
 
 
 

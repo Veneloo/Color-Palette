@@ -2,18 +2,8 @@
 
 {% block content %}
     <h1>{{ subtitle }}</h1>
-    <form action="{{ url_for('random_page') }}" method="GET">
-        <label for="mode-choice">Choose a color mode:</label> 
-        <br />
-        <select name="mode-choice" id="mode-choice"> 
-            <option value="Monochrome">Monochrome</option> 
-            <option value="Monochrome-Dark">Monochrome-dark</option> 
-            <option value="Monochrome-Light">Monochrome-light</option> 
-            <option value="Complement">Complement</option> 
-            <option value="Triad">Triad</option> 
-            <option value="Quad">Quad</option> 
-            <option value="Analogic">Analogic</option> 
-        </select>
+    <form action="{{ url_for('random_page') }}" method="POST">
+ 
         <button type="submit" class="btn btn-primary">Generate Random Color Palette</button>
     </form>
 {% endblock %}
