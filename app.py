@@ -9,8 +9,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Length, Email, EqualTo
 from flask_behind_proxy import FlaskBehindProxy
-from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user
-from flask_login import login_user
+from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)
@@ -35,6 +34,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
+    favorites = db.relationship('Favorite', backref='user', lazy=True)
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}')"
@@ -72,6 +72,20 @@ class LoginForm(FlaskForm):
         user = User.query.filter_by(username=username.data).first()
         if not user:
             raise ValidationError('Username does not exist. Create an account')
+
+class Favorite(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    color = db.Column(db.String(7), nullable=False)
+    one = db.Column(db.String(50), nullable=False)
+    two = db.Column(db.String(50), nullable=False)
+    three = db.Column(db.String(50), nullable=False)
+    four = db.Column(db.String(50), nullable=False)
+    five = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Favorite('{self.color}', '{self.one}', '{self.two}', '{self.three}', '{self.four}', '{self.five}')"
+
 
 @app.route("/")
 @app.route("/welcome")
@@ -193,6 +207,7 @@ def personalized_page():
 
 
 @app.route('/favorites', methods=['GET', 'POST'])
+@login_required
 def favorites_page():
     if request.method == 'POST':
         color = request.form['color']
@@ -201,23 +216,17 @@ def favorites_page():
         three = request.form['three']
         four = request.form['four']
         five = request.form['five']
-        
-        if 'favorites' not in session:
-            session['favorites'] = []
-        
-        session['favorites'].append({
-            'color': color,
-            'one': one,
-            'two': two,
-            'three': three,
-            'four': four,
-            'five': five
-        })
-        
+
+        favorite = Favorite(color=color, one=one, two=two, three=three, four=four, five=five, user_id=current_user.id)
+        db.session.add(favorite)
+        db.session.commit()
+
         flash('Colors added to favorites!', 'success')
         return redirect(url_for('favorites_page'))
-    
-    return render_template('favorites.html', subtitle='Favorites', text='This is the Favorites page', favorites=session.get('favorites', []))
+
+    favorites = Favorite.query.filter_by(user_id=current_user.id).all()
+    return render_template('favorites.html', subtitle='Favorites', text='This is the Favorites page', favorites=favorites)
+
 
 
 @app.route('/clear-favorites', methods=['POST'])
