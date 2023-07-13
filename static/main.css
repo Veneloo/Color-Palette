@@ -10,18 +10,19 @@ body {
 }
 
 header {
-  background-color: #B3E5FC;
-  color: #fff;
+  background-color: #7698a8;
+  color: #7e3535;
   padding: 20px;
 }
 
 h1 {
   font-size: 28px;
   margin: 0;
-  background-color: #B3E5FC;
+  background-color: #41555e;
   display: inline-block;
   padding: 10px;
   border-radius: 5px;
+  color: #6d2a2a;
 }
 
 .username {
@@ -36,16 +37,16 @@ h1 {
   padding: 10px;
 }
 
-.navbar a {
-  color: #fff;
-  text-decoration: none;
-  margin-right: 10px;
+
+.navbar {
+  background-color: #a7b86b; /* Change the background color to a complementary color */
+  padding: 10px;
 }
 
 .card {
   background-color: #fff;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(190, 147, 147, 0.1);
   padding: 20px;
   margin-bottom: 20px;
 }
@@ -53,11 +54,11 @@ h1 {
 .card-title {
   font-size: 24px;
   margin: 0;
-  color: #333;
+  color: #2196f3; /* Change the color to a complementary color */
 }
 
 .card-text {
-  color: #666;
+  color: #9e5a5a;
 }
 
 /* Add your own styles below this line */
