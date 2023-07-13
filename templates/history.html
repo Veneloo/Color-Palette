@@ -1,5 +1,43 @@
-{% extends "layoutt.html" %}
+{% extends 'layoutt.html' %}
+
+
+
 {% block content %}
-    <h1>{{subtitle}}</h1>
-    <p> {{text}} </p>
+  <h1>{{ subtitle }}</h1>
+
+  <div>
+    <h3>Favorite Entries:</h3>
+    {% if favorites %}
+      <ul>
+        {% for favorite in favorites %}
+          <li>{{ favorite.color }}</li>
+          <li>{{ favorite.one }}</li>
+          <li>{{ favorite.two }}</li>
+          <li>{{ favorite.three }}</li>
+          <li>{{ favorite.four }}</li>
+          <li>{{ favorite.five }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No favorite entries found.</p>
+    {% endif %}
+  </div>
+
+  <div>
+    <h3>Color Entries:</h3>
+    {% if color_entries %}
+      <ul>
+        {% for color_entry in color_entries %}
+          <li>{{ color_entry.color }}</li>
+          <li>{{ color_entry.one }}</li>
+          <li>{{ color_entry.two }}</li>
+          <li>{{ color_entry.three }}</li>
+          <li>{{ color_entry.four }}</li>
+          <li>{{ color_entry.five }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No color entries found.</p>
+    {% endif %}
+  </div>
 {% endblock %}

@@ -150,11 +150,17 @@ def login():
     return render_template('login.html', title='Log In', form=form)
 
 
-@app.route("/logout")
+@app.route("/logout", methods=['GET', 'POST'])
 def logout():
-    logout_user()
-    flash('You have been logged out.', 'success')
-    return redirect("/")
+    if current_user.is_authenticated:
+        if request.method == 'POST':
+            logout_user()
+            flash('You have been logged out.', 'success')
+            return redirect("/")
+        return render_template('logout.html', subtitle='Logout')
+    else:
+        return redirect("/")
+
 
 @app.route("/random", methods=['GET', 'POST'])
 def random_page():
@@ -201,30 +207,7 @@ def process1():
 
     return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator', colors=colors)
 
-@app.route('/random-result', methods=['GET', 'POST'])
-def random_result():
-    if request.method == 'POST':
-        # Generate random color and mode
-        rand_color = '#{:06x}'.format(random.randint(0, 0xFFFFFF))
-        rand_mode = random.choice(['monochrome', 'analogic', 'complement'])
 
-        # Make API request to generate color palette
-        url = f"https://www.thecolorapi.com/scheme?hex={rand_color[1:]}&mode={rand_mode}"
-        response = requests.get(url).json()
-
-        # Extract color values from the API response
-        result = []
-        for i in range(5):
-            result.append(response['colors'][i]['image']['bare'])
-        colorurl = f"https://www.thecolorapi.com/id?format=svg&named=false&hex={rand_color[1:]}"
-        one, two, three, four, five = result
-
-        # Create a new ColorEntry instance
-        color_entry = ColorEntry(color=rand_color, one=one, two=two, three=three, four=four, five=five, user_id=current_user.id)
-        db.session.add(color_entry)
-        db.session.commit()
-
-        return render_template('random-result.html', subtitle='Random Palette Result', text='This is the Random Palette Result', colorurl=colorurl, result=result)
 
     # Generate random color and mode
     rand_color = '#{:06x}'.format(random.randint(0, 0xFFFFFF))
