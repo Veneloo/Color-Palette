@@ -1,35 +1,71 @@
-/* Custom CSS styles for random.html */
+/* Add your own random styles here */
+
+/* Example: Style the subtitle with a colorful background */
+h1 {
+  background-image: linear-gradient(to bottom, #ff4081, #3f51b5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Example: Style the form with a colorful border */
 form {
-  margin-bottom: 20px;
+  border: 2px solid #ab47bc;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
-form label {
-  display: block;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-form input[type="color"] {
-  width: 50px;
-  height: 50px;
-  padding: 0;
+/* Example: Style the select dropdown with colorful background and text */
+select {
+  background-color: #ab47bc;
+  color: #fff;
   border: none;
+  padding: 8px;
+  border-radius: 5px;
+  margin-top: 10px;
+  /* Change the dropdown arrow color */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='5' viewBox='0 0 10 5'%3E%3Cpath fill='%23ffffff' d='M0 0l5 4.998L10 0z'/%3E%3C/svg%3E");
 }
 
-form select {
-  padding: 5px;
-  margin-bottom: 10px;
+/* Example: Style the dropdown options */
+select option {
+  background-color: #ab47bc;
+  color: #fff;
 }
 
-form button[type="submit"] {
-  padding: 10px 20px;
-  background-color: #428bca;
-  color: #ffffff;
+/* Example: Style the submit button with a colorful background */
+button[type="submit"] {
+  background-image: linear-gradient(to bottom, #ab47bc, #7e57c2);
+  color: #fff;
   border: none;
+  padding: 8px 16px;
   border-radius: 3px;
+  margin-top: 10px;
   cursor: pointer;
 }
 
-form button[type="submit"]:hover {
-  background-color: #3071a9;
+/* Example: Add a hover effect to the submit button */
+button[type="submit"]:hover {
+  background-image: linear-gradient(to bottom, #7e57c2, #5c6bc0);
+}
+
+/* Example: Style the input text box with colorful background and text */
+input[type="text"] {
+  background-image: linear-gradient(to bottom, #ab47bc, #7e57c2);
+  color: #fff;
+  border: none;
+  padding: 8px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* Example: Style the input text box placeholder text color */
+input[type="text"]::placeholder {
+  color: #fff;
+  opacity: 0.7;
 }
