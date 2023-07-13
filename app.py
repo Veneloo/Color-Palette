@@ -160,31 +160,6 @@ def personalized_page():
 
 @app.route('/history', methods=['GET', 'POST'])
 def history_page():
-    if request.method == 'POST':
-        color = request.form['color']
-        one = request.form['one']
-        two = request.form['two']
-        three = request.form['three']
-        four = request.form['four']
-        five = request.form['five']
-        
-        if 'history' not in session:
-            session['history'] = []
-        
-        session['history'].append({
-            'color': color,
-            'one': one,
-            'two': two,
-            'three': three,
-            'four': four,
-            'five': five
-        })
-        
-        flash('Entry added to history!', 'success')
-        return redirect(url_for('history_page'))
-    
-    history_entries = session.get('history', [])  # Retrieve the stored history entries from session
-    return render_template('history.html', subtitle='History', text='This is the History page', entries=history_entries)
 
 
 @app.route('/favorites', methods=['GET', 'POST'])
