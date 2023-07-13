@@ -29,16 +29,6 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: flex-end;
   background: rgba(8, 66, 141, 0.2);
 }
-/*   
-h1 {
-  font-size: 28px;
-  margin: 0;
-  background-color: #B3E5FC;
-  display: inline-block;
-  padding: 10px;
-  border-radius: 5px;
-} */
-
 
 .navbar a {
 

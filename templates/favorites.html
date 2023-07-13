@@ -1,8 +1,6 @@
 {% extends "layoutt.html" %}
 {% block content %}
     <h1>{{ subtitle }}</h1>
-    <p>{{ text }}</p>
-
     {% if favorites %}
         <h3>Favorite Colors:</h3>
         {% for favorite in favorites %}
