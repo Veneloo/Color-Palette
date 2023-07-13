@@ -1,29 +1,30 @@
 {% extends 'layoutt.html' %}
 
-{% block content %}
-  <h1>{{ subtitle }}</h1>
-  <p>{{ text }}</p>
+{% block subtitle %}Random Palette Result{% endblock %}
 
+{% block text %}This is the Random Palette Result{% endblock %}
+
+{% block content %}
   <div>
     <h3>Color Image:</h3>
     <img src="{{ colorurl }}" alt="Color Image">
   </div>
   <div>
     <h2>Result:</h2>
-    <img src="{{ one }}">
-    <img src="{{ two }}">
-    <img src="{{ three }}">
-    <img src="{{ four }}">
-    <img src="{{ five }}">
+    <img src="{{ result[0] }}">
+    <img src="{{ result[1] }}">
+    <img src="{{ result[2] }}">
+    <img src="{{ result[3] }}">
+    <img src="{{ result[4] }}">
   </div>
   <div style="margin-top: 10px;">
     <form action="{{ url_for('favorites_page') }}" method="POST">
       <input type="hidden" name="color" value="{{ color }}">
-      <input type="hidden" name="one" value="{{ one }}">
-      <input type="hidden" name="two" value="{{ two }}">
-      <input type="hidden" name="three" value="{{ three }}">
-      <input type="hidden" name="four" value="{{ four }}">
-      <input type="hidden" name="five" value="{{ five }}">
+      <input type="hidden" name="one" value="{{ result[0] }}">
+      <input type="hidden" name="two" value="{{ result[1] }}">
+      <input type="hidden" name="three" value="{{ result[2] }}">
+      <input type="hidden" name="four" value="{{ result[3] }}">
+      <input type="hidden" name="five" value="{{ result[4] }}">
       <button type="submit">Add to Favorites</button>
     </form>
   </div>

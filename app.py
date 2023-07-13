@@ -4,6 +4,7 @@ import random
 import re
 from flask import Flask, render_template, url_for, flash, redirect, session, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_session import Session
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -23,6 +24,8 @@ Session(app)
 # Database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
 
 # Flask-Login
 login_manager = LoginManager(app)
@@ -43,9 +46,10 @@ class User(UserMixin, db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# Create database tables
-with app.app_context():
-    db.create_all()
+
+
+
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
@@ -95,9 +99,14 @@ class ColorEntry(db.Model):
     four = db.Column(db.String(50), nullable=False)
     five = db.Column(db.String(50), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    random_palette = db.Column(db.String(100), nullable=True)
 
     def __repr__(self):
-        return f"ColorEntry('{self.color}', '{self.one}', '{self.two}', '{self.three}', '{self.four}', '{self.five}')"
+        return f"ColorEntry('{self.color}', '{self.one}', '{self.two}', '{self.three}', '{self.four}', '{self.five}', '{self.random_palette}')"
+
+    
+with app.app_context():
+    db.create_all()
 
 
 @app.route("/")
@@ -151,10 +160,10 @@ def logout():
 def random_page():
     if request.method == 'POST':
         # Generate random hex color
-        rand_color = '%06x' % random.randint(0, 0xFFFFFF)
+        rand_color = '#{:06x}'.format(random.randint(0, 0xFFFFFF))
 
         # Make API request to generate color palette
-        url = f"https://www.thecolorapi.com/scheme?hex={rand_color}"
+        url = f"https://www.thecolorapi.com/scheme?hex={rand_color[1:]}"
         response = requests.get(url).json()
 
         # Extract color values from the API response
@@ -165,15 +174,71 @@ def random_page():
 
         return redirect(url_for('random_result', color=colors[0], result=colors[1:]))
 
-    return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator')
+    # Generate random hex color
+    rand_color = '#{:06x}'.format(random.randint(0, 0xFFFFFF))
 
+    # Make API request to generate color palette
+    url = f"https://www.thecolorapi.com/scheme?hex={rand_color[1:]}"
+    response = requests.get(url).json()
 
-@app.route('/random-result')
+    # Extract color values from the API response
+    colors = []
+    for i in range(5):
+        color = response['colors'][i]['hex']['value']
+        colors.append(color)
+
+    return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator', colors=colors)
+
+@app.route('/random-result', methods=['GET', 'POST'])
 def random_result():
-    color = request.args.get('color')
-    result = request.args.getlist('result')
+    if request.method == 'POST':
+        # Generate random color and mode
+        rand_color = '#{:06x}'.format(random.randint(0, 0xFFFFFF))
+        rand_mode = random.choice(['monochrome', 'analogic', 'complement'])
 
-    return render_template('random-result.html', color=color, result=result)
+        # Make API request to generate color palette
+        url = f"https://www.thecolorapi.com/scheme?hex={rand_color[1:]}&mode={rand_mode}"
+        response = requests.get(url).json()
+
+        # Extract color values from the API response
+        result = []
+        for i in range(5):
+            result.append(response['colors'][i]['image']['bare'])
+        colorurl = f"https://www.thecolorapi.com/id?format=svg&named=false&hex={rand_color[1:]}"
+        one, two, three, four, five = result
+
+        # Create a new ColorEntry instance
+        color_entry = ColorEntry(color=rand_color, one=one, two=two, three=three, four=four, five=five, user_id=current_user.id)
+        db.session.add(color_entry)
+        db.session.commit()
+
+        return render_template('random-result.html', subtitle='Random Palette Result', text='This is the Random Palette Result', colorurl=colorurl, result=result)
+
+    # Generate random color and mode
+    rand_color = '#{:06x}'.format(random.randint(0, 0xFFFFFF))
+    rand_mode = random.choice(['monochrome', 'analogic', 'complement'])
+
+    # Make API request to generate color palette
+    url = f"https://www.thecolorapi.com/scheme?hex={rand_color[1:]}&mode={rand_mode}"
+    response = requests.get(url).json()
+
+    # Extract color values from the API response
+    result = []
+    for i in range(5):
+        result.append(response['colors'][i]['image']['bare'])
+    colorurl = f"https://www.thecolorapi.com/id?format=svg&named=false&hex={rand_color[1:]}"
+    one, two, three, four, five = result
+
+    # Create a new ColorEntry instance
+    color_entry = ColorEntry(color=rand_color, one=one, two=two, three=three, four=four, five=five, user_id=current_user.id)
+    db.session.add(color_entry)
+    db.session.commit()
+
+    return render_template('random-result.html', subtitle='Random Palette Result', text='This is the Random Palette Result', colorurl=colorurl, result=result)
+
+    
+
+
 
 
 
@@ -186,18 +251,18 @@ def result():
 
     response = requests.get(url).json()
 
-# Print urls of 5 random monochromatic colors
+    # Print urls of 5 random monochromatic colors
     result = []
     for i in range(5):
         result.append(response['colors'][i]['image']['bare'])
     one = result[0]
-    two = result [1]
+    two = result[1]
     three = result[2]
-    four = result [3]
+    four = result[3]
     five = result[4]
   
     return render_template('result.html', result=result, colorurl=colorurl, one=one, two=two, three=three, four=four, five=five)
-    
+
     # Create a new ColorEntry instance
     color_entry = ColorEntry(color=color, one=one, two=two, three=three, four=four, five=five, user_id=current_user.id)
     
@@ -207,7 +272,6 @@ def result():
 
     # Redirect to history page
     return redirect(url_for('history'))
-
 
 
 @app.route("/personalized", methods=['GET', 'POST'])
@@ -242,9 +306,6 @@ def history():
     return render_template('history.html', subtitle='History', favorites=favorites, color_entries=color_entries)
 
 
-
-
-
 @app.route('/favorites', methods=['GET', 'POST'])
 @login_required
 def favorites_page():
@@ -265,7 +326,6 @@ def favorites_page():
 
     favorites = Favorite.query.filter_by(user_id=current_user.id).all()
     return render_template('favorites.html', subtitle='Favorites', text='This is the Favorites page', favorites=favorites)
-
 
 
 @app.route('/clear-favorites', methods=['GET', 'POST'])
