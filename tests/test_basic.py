@@ -1,7 +1,7 @@
 import unittest, sys
 
 sys.path.append('../Music-Palette') # imports python file from parent directory
-from app import app
+from app.py import app
 
 class BasicTests(unittest.TestCase):
 
