@@ -28,3 +28,13 @@
   display: inline-block;
   margin-right: 10px;
 }
+/* Add your own personalized styles here */
+/* Example: Change the background color of the header for personalized page */
+header {
+  background-color: #8e24aa;
+}
+
+/* Example: Change the font color of the personalized card title */
+.card-title {
+  color: #8e24aa;
+}
