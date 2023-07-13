@@ -38,8 +38,8 @@ form input[type="color"] {
 
 /* Example: Change the background color of the header for personalized page */
 header {
-  background-color: #4c075f;
-
+  background-color: #2c1442;
+  /* #4c075f */
 }
 
 /* Example: Change the font color of the personalized card title */
