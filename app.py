@@ -1,5 +1,4 @@
 import os
-
 import requests
 import random
 import re
@@ -10,6 +9,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Length, Email, EqualTo
 from flask_behind_proxy import FlaskBehindProxy
+from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
+
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)
 
@@ -17,20 +18,32 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config['SECRET_KEY'] = 'super secret key'
-# app.config['SECRET_KEY'] = '53046ce2de3a349d31131737702b9825'
 Session(app)
-
 
 # Database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
-class User(db.Model):
+
+# Flask-Login
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+
+# User model
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
+    favorites = db.relationship('Favorite', backref='user', lazy=True)
+
     def __repr__(self):
         return f"User('{self.username}', '{self.email}')"
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# Create database tables
 with app.app_context():
     db.create_all()
 
@@ -57,8 +70,22 @@ class LoginForm(FlaskForm):
 
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
-        if user is None:
-            raise ValidationError('Username does not exit. Create an account')
+        if not user:
+            raise ValidationError('Username does not exist. Create an account')
+
+class Favorite(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    color = db.Column(db.String(7), nullable=False)
+    one = db.Column(db.String(50), nullable=False)
+    two = db.Column(db.String(50), nullable=False)
+    three = db.Column(db.String(50), nullable=False)
+    four = db.Column(db.String(50), nullable=False)
+    five = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Favorite('{self.color}', '{self.one}', '{self.two}', '{self.three}', '{self.four}', '{self.five}')"
+
 
 @app.route("/")
 @app.route("/welcome")
@@ -67,30 +94,47 @@ def welcome_page():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('welcome_page'))
+
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
         flash(f'Account created for {form.username.data}!', 'success')
+        login_user(user)
         return redirect(url_for('welcome_page'))
+
     return render_template('register.html', title='Register', form=form)
+
+from flask_login import login_user
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    session.clear()
+    if current_user.is_authenticated:
+        return redirect(url_for('welcome_page'))
+
     form = LoginForm()
     if form.validate_on_submit():
-        flash(f'Welcome Back {form.username.data}!', 'success')
-        return redirect(url_for('welcome_page'))
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and user.password == form.password.data:
+            login_user(user)
+            flash(f'Welcome Back {form.username.data}!', 'success')
+            return redirect(url_for('welcome_page'))
+        else:
+            flash('Invalid username or password.', 'danger')
+
     return render_template('login.html', title='Log In', form=form)
+
 
 @app.route("/logout")
 def logout():
-    db.session.clear()
+    logout_user()
+    flash('You have been logged out.', 'success')
     return redirect("/")
 
-# Rest of the routes...
+
 @app.route("/random")
 def random_page():
     if request.method == 'POST':
@@ -159,10 +203,11 @@ def personalized_page():
     return render_template('personalized.html', subtitle='Personalized Palette Generator', text='This is the Personalized Palette Generator', colors=None)
 
 @app.route('/history', methods=['GET', 'POST'])
-def history_page():
+
 
 
 @app.route('/favorites', methods=['GET', 'POST'])
+@login_required
 def favorites_page():
     if request.method == 'POST':
         color = request.form['color']
@@ -171,23 +216,17 @@ def favorites_page():
         three = request.form['three']
         four = request.form['four']
         five = request.form['five']
-        
-        if 'favorites' not in session:
-            session['favorites'] = []
-        
-        session['favorites'].append({
-            'color': color,
-            'one': one,
-            'two': two,
-            'three': three,
-            'four': four,
-            'five': five
-        })
-        
+
+        favorite = Favorite(color=color, one=one, two=two, three=three, four=four, five=five, user_id=current_user.id)
+        db.session.add(favorite)
+        db.session.commit()
+
         flash('Colors added to favorites!', 'success')
         return redirect(url_for('favorites_page'))
-    
-    return render_template('favorites.html', subtitle='Favorites', text='This is the Favorites page', favorites=session.get('favorites', []))
+
+    favorites = Favorite.query.filter_by(user_id=current_user.id).all()
+    return render_template('favorites.html', subtitle='Favorites', text='This is the Favorites page', favorites=favorites)
+
 
 
 @app.route('/clear-favorites', methods=['POST'])
