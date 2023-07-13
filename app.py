@@ -182,6 +182,7 @@ def random_page():
     return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator')
 
 @app.route('/ranresult', methods=['POST'])
+@login_required
 def process1():
     rand_color = random.choices(range(256), k=3)
     rand_mode = random.choice(["monochrome-dark", "monochrome-light", "complement",
@@ -208,7 +209,6 @@ def process1():
     return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator', colors=colors)
 
 
-
     # Generate random color and mode
     rand_color = '#{:06x}'.format(random.randint(0, 0xFFFFFF))
     rand_mode = random.choice(['monochrome', 'analogic', 'complement'])
@@ -233,7 +233,8 @@ def process1():
 
     
 
-@app.route('/result', methods=['GET', 'POST'])
+@app.route('/result', methods=['POST'])
+@login_required
 def result():
     color = request.form['colorPicker']
     mode = request.form["mode-choice"]
@@ -242,21 +243,15 @@ def result():
 
     response = requests.get(url).json()
 
-    # Print urls of 5 random monochromatic colors
+    # Extract color values from the API response
     result = []
     for i in range(5):
         result.append(response['colors'][i]['image']['bare'])
-    one = result[0]
-    two = result[1]
-    three = result[2]
-    four = result[3]
-    five = result[4]
-  
-    return render_template('result.html', result=result, colorurl=colorurl, one=one, two=two, three=three, four=four, five=five)
+    one, two, three, four, five = result
 
     # Create a new ColorEntry instance
     color_entry = ColorEntry(color=color, one=one, two=two, three=three, four=four, five=five, user_id=current_user.id)
-    
+
     # Add the color entry to the database
     db.session.add(color_entry)
     db.session.commit()
@@ -289,6 +284,11 @@ def personalized_page():
 
     return render_template('personalized.html', subtitle='Personalized Palette Generator', text='This is the Personalized Palette Generator', colors=None)
 
+def get_color_entries():
+    # Fetch the color entries for the current user
+    color_entries = ColorEntry.query.filter_by(user_id=current_user.id).all()
+    return color_entries
+
 @app.route('/history', methods=['GET', 'POST'])
 @login_required
 def history():
@@ -296,13 +296,20 @@ def history():
         # Handle the POST request here
         # For example, you can clear the history or perform any other actions
 
-        # Redirect to the updated history page after handling the POST request
+        # Reload the favorites and color entries after handling the POST request
+        favorites = Favorite.query.filter_by(user_id=current_user.id).all()
+        color_entries = ColorEntry.query.filter_by(user_id=current_user.id).all()
+
+        # Redirect to the updated history page
         return redirect(url_for('history'))
 
+    # Load the favorites and color entries for the current user
     favorites = Favorite.query.filter_by(user_id=current_user.id).all()
     color_entries = ColorEntry.query.filter_by(user_id=current_user.id).all()
 
     return render_template('history.html', subtitle='History', favorites=favorites, color_entries=color_entries)
+
+
 
 
 
