@@ -2,10 +2,10 @@
 {% block content %}
     <h1>{{ subtitle }}</h1>
     {% if favorites %}
-        <h3>Favorite Colors:</h3>
+        <h3>Saved Outfit Color Palettes:</h3>
         {% for favorite in favorites %}
             <div>
-                <h4>Result:</h4>
+                <p>Result:</p>
                 <img src="{{ favorite.one }}">
                 <img src="{{ favorite.two }}">
                 <img src="{{ favorite.three }}">
