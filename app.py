@@ -183,10 +183,11 @@ def random_page():
 
 @app.route('/ranresult', methods=['POST'])
 def process1():
+    rand_color = random.choices(range(256), k=3)
     rand_mode = random.choice(["monochrome-dark", "monochrome-light", "complement",
                               "triad", "quad",  "analogic"])
-    rgb_vals = '{:06x}'.format(random.randint(0, 0xFFFFFF))
-    url = f"https://www.thecolorapi.com/scheme?hex={rgb_vals}&mode={rand_mode}"
+    rgb_vals = str(rand_color[0]) + ',' + str(rand_color[1]) + ',' + str(rand_color[2])
+    url = f"https://www.thecolorapi.com/scheme?rgb={rgb_vals}&mode={rand_mode}"
 
     response = requests.get(url).json()
 
@@ -199,16 +200,12 @@ def process1():
     three = result[2]
     four = result [3]
     five = result[4]
-    
-    color_entry1 = ColorEntry(color=rgb_vals, one=one, two=two, three=three, four=four, five=five, user_id=current_user.id)
-    db.session.add(color_entry1)
-    db.session.commit()
+
     
     return render_template('ranresult.html', result=result, rand_mode = rand_mode, one = one, 
                            two = two, three = three, four = four, five = five)
 
     return render_template('random.html', subtitle='Random Palette Generator', text='This is the Random Palette Generator', colors=colors)
-
 
 
     # Generate random color and mode
@@ -254,23 +251,17 @@ def result():
     four = result[3]
     five = result[4]
   
-    color_entry = ColorEntry(color=color, one=one, two=two, three=three, four=four, five=five, user_id=current_user.id)
-
-    
-    db.session.add(color_entry)
-    db.session.commit()
-    
     return render_template('result.html', result=result, colorurl=colorurl, one=one, two=two, three=three, four=four, five=five)
 
-    # # Create a new ColorEntry instance
-    # color_entry = ColorEntry(color=color, one=one, two=two, three=three, four=four, five=five, user_id=current_user.id)
+    # Create a new ColorEntry instance
+    color_entry = ColorEntry(color=color, one=one, two=two, three=three, four=four, five=five, user_id=current_user.id)
     
-    # # Add the color entry to the database
-    # db.session.add(color_entry)
-    # db.session.commit()
+    # Add the color entry to the database
+    db.session.add(color_entry)
+    db.session.commit()
 
-    # # Redirect to history page
-    # return redirect(url_for('history'))
+    # Redirect to history page
+    return redirect(url_for('history'))
 
 
 @app.route("/personalized", methods=['GET', 'POST'])
